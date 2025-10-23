@@ -1,0 +1,57 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="cardShadowLight" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#000000" flood-opacity="0.12" />
+    </filter>
+    <style>
+      .title { font-family: 'Montserrat', 'Helvetica', sans-serif; font-weight: 700; fill: #DB3A34; }
+      .subtitle { font-family: 'Montserrat', 'Helvetica', sans-serif; fill: #8C8C8C; font-size: 40px; }
+      .label { font-family: 'Montserrat', 'Helvetica', sans-serif; fill: #2F2E41; font-weight: 600; }
+    </style>
+  </defs>
+
+  <rect width="1080" height="1920" fill="#F8F3ED" />
+
+  <g transform="translate(80,120)">
+    <text x="0" y="60" class="title" font-size="60">Elige tus ingredientes</text>
+    <text x="0" y="128" class="subtitle">Seleccionados: 3 · Lomo saltado</text>
+    <rect x="760" y="12" width="180" height="80" rx="24" fill="#DB3A34" fill-opacity="0.12" />
+    <text x="850" y="68" text-anchor="middle" class="label" font-size="36" fill="#DB3A34">Limpiar</text>
+  </g>
+
+  <g transform="translate(80,260)">
+    <!-- Ingredient grid -->
+    <g transform="translate(0,0)">
+      <rect width="300" height="260" rx="28" fill="#FFFFFF" filter="url(#cardShadowLight)" />
+      <text x="150" y="320" text-anchor="middle" class="label" font-size="42">Ají Amarillo</text>
+    </g>
+    <g transform="translate(340,0)">
+      <rect width="300" height="260" rx="28" fill="#DB3A34" />
+      <text x="150" y="140" text-anchor="middle" font-family="'Montserrat'" font-weight="700" font-size="48" fill="#FFFFFF">✔</text>
+      <text x="150" y="320" text-anchor="middle" class="label" font-size="42" fill="#FFFFFF">Cebolla</text>
+    </g>
+    <g transform="translate(680,0)">
+      <rect width="300" height="260" rx="28" fill="#FFFFFF" filter="url(#cardShadowLight)" />
+      <text x="150" y="320" text-anchor="middle" class="label" font-size="42">Papa Amarilla</text>
+    </g>
+    <g transform="translate(0,320)">
+      <rect width="300" height="260" rx="28" fill="#FFFFFF" filter="url(#cardShadowLight)" />
+      <text x="150" y="320" text-anchor="middle" class="label" font-size="42">Sillao</text>
+    </g>
+    <g transform="translate(340,320)">
+      <rect width="300" height="260" rx="28" fill="#FFFFFF" filter="url(#cardShadowLight)" />
+      <text x="150" y="320" text-anchor="middle" class="label" font-size="42">Tomate</text>
+    </g>
+    <g transform="translate(680,320)">
+      <rect width="300" height="260" rx="28" fill="#FFFFFF" filter="url(#cardShadowLight)" />
+      <text x="150" y="320" text-anchor="middle" class="label" font-size="42">Culantro</text>
+    </g>
+  </g>
+
+  <g transform="translate(80,1520)">
+    <rect width="920" height="140" rx="36" fill="#DB3A34" />
+    <text x="460" y="92" text-anchor="middle" font-family="'Montserrat', 'Helvetica', sans-serif" font-size="48" font-weight="600" fill="#FFFFFF">
+      Generar receta peruana
+    </text>
+  </g>
+</svg>

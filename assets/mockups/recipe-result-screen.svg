@@ -1,0 +1,99 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="20" stdDeviation="20" flood-color="#000000" flood-opacity="0.1" />
+    </filter>
+    <style>
+      .heading { font-family: 'Montserrat', 'Helvetica', sans-serif; font-weight: 700; fill: #2F2E41; }
+      .body { font-family: 'Montserrat', 'Helvetica', sans-serif; fill: #8C8C8C; font-size: 38px; }
+      .chip-text { font-family: 'Montserrat', 'Helvetica', sans-serif; font-weight: 600; fill: #FFFFFF; font-size: 34px; }
+      .chip { rx: 48; }
+    </style>
+  </defs>
+
+  <rect width="1080" height="1920" fill="#F8F3ED" />
+
+  <g transform="translate(80,120)">
+    <g filter="url(#softShadow)">
+      <rect width="920" height="420" rx="40" fill="#FFFFFF" />
+    </g>
+    <g transform="translate(60,40)">
+      <rect width="220" height="72" rx="36" fill="#F8D4CE" />
+      <text x="110" y="48" text-anchor="middle" font-family="'Montserrat'" font-size="32" font-weight="600" fill="#DB3A34">Costa</text>
+      <text x="0" y="160" class="heading" font-size="72">Lomo Saltado</text>
+      <text x="0" y="230" class="body">Salteado criollo con lomo, cebolla y tomate flameado.</text>
+      <g transform="translate(0,280)">
+        <g>
+          <circle cx="24" cy="24" r="24" fill="#F6AA1C" />
+          <text x="70" y="32" font-family="'Montserrat'" font-weight="600" font-size="38" fill="#F6AA1C">30 min</text>
+        </g>
+        <g transform="translate(260,0)">
+          <circle cx="24" cy="24" r="24" fill="#F6AA1C" />
+          <text x="70" y="32" font-family="'Montserrat'" font-weight="600" font-size="38" fill="#F6AA1C">Media</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(80,600)">
+    <text x="0" y="0" class="heading" font-size="54">Coincidencias</text>
+    <g transform="translate(0,40)">
+      <rect width="240" height="88" rx="44" fill="#2E8B57" />
+      <text x="120" y="58" class="chip-text">Ají</text>
+      <g transform="translate(260,0)">
+        <rect width="300" height="88" rx="44" fill="#2E8B57" />
+        <text x="150" y="58" class="chip-text">Cebolla Roja</text>
+      </g>
+      <g transform="translate(580,0)">
+        <rect width="280" height="88" rx="44" fill="#2E8B57" />
+        <text x="140" y="58" class="chip-text">Perejil</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(80,820)">
+    <text x="0" y="0" class="heading" font-size="54">Te hará falta</text>
+    <g transform="translate(0,40)">
+      <rect width="320" height="88" rx="44" fill="#C0392B" />
+      <text x="160" y="58" class="chip-text">Papas fritas</text>
+      <g transform="translate(340,0)">
+        <rect width="280" height="88" rx="44" fill="#C0392B" />
+        <text x="140" y="58" class="chip-text">Arroz</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(80,1040)">
+    <text x="0" y="0" class="heading" font-size="54">Pasos</text>
+    <g transform="translate(0,40)">
+      <g transform="translate(0,0)">
+        <circle cx="30" cy="30" r="30" fill="#DB3A34" />
+        <text x="30" y="40" text-anchor="middle" font-family="'Montserrat'" font-weight="700" font-size="42" fill="#FFFFFF">1</text>
+        <text x="90" y="40" class="body" fill="#2F2E41" font-size="40">Saltear el lomo con fuego alto.</text>
+      </g>
+      <g transform="translate(0,120)">
+        <circle cx="30" cy="30" r="30" fill="#DB3A34" />
+        <text x="30" y="40" text-anchor="middle" font-family="'Montserrat'" font-weight="700" font-size="42" fill="#FFFFFF">2</text>
+        <text x="90" y="40" class="body" fill="#2F2E41" font-size="40">Añadir cebolla, tomate y sillao.</text>
+      </g>
+      <g transform="translate(0,240)">
+        <circle cx="30" cy="30" r="30" fill="#DB3A34" />
+        <text x="30" y="40" text-anchor="middle" font-family="'Montserrat'" font-weight="700" font-size="42" fill="#FFFFFF">3</text>
+        <text x="90" y="40" class="body" fill="#2F2E41" font-size="40">Servir con papas y arroz blanco.</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(80,1500)">
+    <rect width="920" height="120" rx="32" fill="#FFFFFF" stroke="#DB3A34" stroke-width="4" />
+    <text x="460" y="78" text-anchor="middle" font-family="'Montserrat'" font-weight="600" font-size="44" fill="#DB3A34">
+      Elegir otros ingredientes
+    </text>
+    <g transform="translate(0,160)">
+      <rect width="920" height="120" rx="32" fill="#DB3A34" />
+      <text x="460" y="78" text-anchor="middle" font-family="'Montserrat'" font-weight="600" font-size="44" fill="#FFFFFF">
+        Volver al inicio
+      </text>
+    </g>
+  </g>
+</svg>

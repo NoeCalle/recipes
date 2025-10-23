@@ -1,0 +1,34 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="welcomeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9D976" />
+      <stop offset="50%" stop-color="#F39F86" />
+      <stop offset="100%" stop-color="#EA5455" />
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="32" stdDeviation="32" flood-color="#000000" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <rect width="1080" height="1920" fill="url(#welcomeGradient)" />
+
+  <g filter="url(#cardShadow)">
+    <rect x="150" y="520" width="780" height="880" rx="48" fill="#FFFFFF" fill-opacity="0.92" />
+  </g>
+
+  <text x="540" y="860" text-anchor="middle" font-family="'Montserrat', 'Helvetica', sans-serif" font-size="90" font-weight="700" fill="#DB3A34">
+    Sabores del Perú
+  </text>
+  <foreignObject x="220" y="920" width="640" height="320">
+    <body xmlns="http://www.w3.org/1999/xhtml" style="font-family: 'Montserrat', 'Helvetica', sans-serif; font-size: 42px; color: #2F2E41; text-align: center; line-height: 1.4;">
+      Descubre recetas criollas seleccionando tus ingredientes favoritos.
+    </body>
+  </foreignObject>
+
+  <g transform="translate(390,1200)">
+    <rect width="300" height="120" rx="32" fill="#DB3A34" />
+    <text x="150" y="78" text-anchor="middle" font-family="'Montserrat', 'Helvetica', sans-serif" font-size="48" font-weight="600" fill="#FFFFFF">
+      Comenzar
+    </text>
+  </g>
+</svg>
