@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import RootNavigator from './src/navigation';
 import { SelectionProvider } from './src/context/SelectionContext';
+import { LanguageProvider } from './src/context/LanguageContext';
 import colors from './src/theme/colors';
 
 const navigationTheme: Theme = {
@@ -20,13 +21,15 @@ const navigationTheme: Theme = {
 
 export default function App(): JSX.Element {
   return (
-    <SelectionProvider>
-      <SafeAreaProvider>
-        <NavigationContainer theme={navigationTheme}>
-          <StatusBar style="dark" />
-          <RootNavigator />
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </SelectionProvider>
+    <LanguageProvider>
+      <SelectionProvider>
+        <SafeAreaProvider>
+          <NavigationContainer theme={navigationTheme}>
+            <StatusBar style="dark" />
+            <RootNavigator />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </SelectionProvider>
+    </LanguageProvider>
   );
 }

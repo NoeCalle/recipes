@@ -35,12 +35,10 @@ const RootNavigator = (): JSX.Element => (
     <Stack.Screen
       name="IngredientSelection"
       component={IngredientSelectionScreen}
-      options={{ title: 'Selecciona ingredientes' }}
     />
     <Stack.Screen
       name="RecipeResult"
       component={RecipeResultScreen}
-      options={{ title: 'Tu receta peruana' }}
     />
   </Stack.Navigator>
 );

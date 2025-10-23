@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/native-stack';
@@ -8,26 +8,33 @@ import { useSelection } from '../context/SelectionContext';
 import { getTopRecipeMatch } from '../utils/recipeMatcher';
 import { RootStackParamList } from '../navigation';
 import colors from '../theme/colors';
+import { useLanguage } from '../context/LanguageContext';
+import { uiCopy } from '../i18n/translations';
+import { getRecipeName } from '../i18n/helpers';
 
 const IngredientSelectionScreen: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'IngredientSelection'>>();
+  const { language } = useLanguage();
   const { selectedIngredients, toggleIngredient, resetSelection } = useSelection();
+  const copy = uiCopy[language].ingredientSelection;
+  const { headerTitle, title, selectedPrefix, selectedNone, clear, alerts, primaryAction } = copy;
+
+  useEffect(() => {
+    navigation.setOptions({ title: headerTitle });
+  }, [navigation, headerTitle]);
 
   const selectedCount = selectedIngredients.length;
   const previewMatch = useMemo(() => getTopRecipeMatch(selectedIngredients), [selectedIngredients]);
 
   const handleGenerateRecipe = () => {
     if (selectedCount === 0) {
-      Alert.alert('Selecciona ingredientes', 'Elige al menos un ingrediente para continuar.');
+      Alert.alert(alerts.noneTitle, alerts.noneMessage);
       return;
     }
 
     const match = getTopRecipeMatch(selectedIngredients);
     if (!match) {
-      Alert.alert(
-        'Sin coincidencias',
-        'No encontramos una receta exacta. Intenta combinar ingredientes base como ají, cebolla o papa.'
-      );
+      Alert.alert(alerts.noMatchTitle, alerts.noMatchMessage);
       return;
     }
 
@@ -42,14 +49,15 @@ const IngredientSelectionScreen: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.title}>Elige tus ingredientes</Text>
+          <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>
-            Seleccionados: {selectedCount} · {previewMatch ? previewMatch.recipe.name : 'Añade más para ver sugerencias'}
+            {selectedPrefix}: {selectedCount} ·{' '}
+            {previewMatch ? getRecipeName(previewMatch.recipe, language) : selectedNone}
           </Text>
         </View>
         {selectedCount > 0 && (
           <Pressable onPress={resetSelection} style={styles.clearButton}>
-            <Text style={styles.clearText}>Limpiar</Text>
+            <Text style={styles.clearText}>{clear}</Text>
           </Pressable>
         )}
       </View>
@@ -79,7 +87,7 @@ const IngredientSelectionScreen: React.FC = () => {
           onPress={handleGenerateRecipe}
         >
           <Text style={styles.generateButtonText}>
-            {selectedCount === 0 ? 'Selecciona ingredientes' : 'Generar receta peruana'}
+            {selectedCount === 0 ? primaryAction.disabled : primaryAction.enabled}
           </Text>
         </Pressable>
       </View>

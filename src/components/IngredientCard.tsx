@@ -3,6 +3,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import colors from '../theme/colors';
 import { Ingredient } from '../types';
+import { useLanguage } from '../context/LanguageContext';
+import { getIngredientCategoryLabel, getIngredientName } from '../i18n/helpers';
 
 interface IngredientCardProps {
   ingredient: Ingredient;
@@ -11,6 +13,10 @@ interface IngredientCardProps {
 }
 
 const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, selected, onPress }) => {
+  const { language } = useLanguage();
+  const name = getIngredientName(ingredient, language);
+  const category = getIngredientCategoryLabel(ingredient.category, language);
+
   return (
     <Pressable
       onPress={onPress}
@@ -27,8 +33,8 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, selected, o
           color={selected ? '#ffffff' : colors.primary}
         />
       </View>
-      <Text style={styles.name}>{ingredient.name}</Text>
-      <Text style={styles.category}>{ingredient.category}</Text>
+      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.category}>{category}</Text>
     </Pressable>
   );
 };
