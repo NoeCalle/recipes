@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -7,12 +7,17 @@ import { RootStackParamList } from '../navigation';
 import { StackNavigationProp } from '@react-navigation/native-stack';
 import { recipes } from '../data/recipes';
 import ingredients from '../data/ingredients';
-
-const difficultyLabels: Record<string, string> = {
-  'fácil': 'Fácil',
-  media: 'Media',
-  difícil: 'Difícil'
-};
+import { useLanguage } from '../context/LanguageContext';
+import { uiCopy } from '../i18n/translations';
+import {
+  getIngredientNameById,
+  getRecipeDescription,
+  getRecipeDifficulty,
+  getRecipeName,
+  getRecipeRegion,
+  getRecipeSteps,
+  getRecipeTips
+} from '../i18n/helpers';
 
 type RecipeResultRouteProp = RouteProp<RootStackParamList, 'RecipeResult'>;
 type RecipeResultNavigationProp = StackNavigationProp<RootStackParamList, 'RecipeResult'>;
@@ -20,71 +25,57 @@ type RecipeResultNavigationProp = StackNavigationProp<RootStackParamList, 'Recip
 const RecipeResultScreen: React.FC = () => {
   const navigation = useNavigation<RecipeResultNavigationProp>();
   const route = useRoute<RecipeResultRouteProp>();
+  const { language } = useLanguage();
+  const copy = uiCopy[language].recipeResult;
+
+  useEffect(() => {
+    navigation.setOptions({ title: copy.headerTitle });
+  }, [navigation, copy.headerTitle]);
 
   const { recipeId, matchedIngredients, missingIngredients } = route.params;
 
   const recipe = recipes.find((item) => item.id === recipeId);
 
-  const ingredientMap = useMemo(() => {
-    return new Map(ingredients.map((item) => [item.id, item]));
-  }, []);
-
-  const accentOverrides: Record<string, string> = {
-    aji: 'Ají',
-    limon: 'Limón',
-    huevo: 'Huevo',
-    duro: 'Duro',
-    arvejas: 'Arvejas',
-    zanahoria: 'Zanahoria',
-    nueces: 'Nueces',
-    aceituna: 'Aceituna'
-  };
-
-  const resolveIngredientName = (id: string) => {
-    const fromCatalog = ingredientMap.get(id)?.name;
-    if (fromCatalog) {
-      return fromCatalog;
-    }
-    return id
-      .split('-')
-      .map((word) => {
-        const normalized = word.toLowerCase();
-        const override = accentOverrides[normalized];
-        if (override) {
-          return override;
-        }
-        return normalized.charAt(0).toUpperCase() + normalized.slice(1);
-      })
-      .join(' ');
-  };
+  const ingredientMap = useMemo(() => new Map(ingredients.map((item) => [item.id, item])), []);
 
   if (!recipe) {
     return (
       <View style={styles.emptyState}>
-        <Text style={styles.emptyTitle}>No encontramos la receta</Text>
-        <Text style={styles.emptySubtitle}>
-          Intenta regresar y escoger otra combinación de ingredientes.
-        </Text>
+        <Text style={styles.emptyTitle}>{copy.emptyTitle}</Text>
+        <Text style={styles.emptySubtitle}>{copy.emptySubtitle}</Text>
         <Pressable style={styles.primaryButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.primaryButtonText}>Volver</Text>
+          <Text style={styles.primaryButtonText}>{copy.goBack}</Text>
         </Pressable>
       </View>
     );
   }
 
-  const resolvedMatched = matchedIngredients.map(resolveIngredientName);
-  const resolvedMissing = missingIngredients.map(resolveIngredientName);
-  const optionalIngredients = (recipe.optionalIngredients ?? []).map(resolveIngredientName);
+  const recipeName = getRecipeName(recipe, language);
+  const recipeDescription = getRecipeDescription(recipe, language);
+  const regionLabel = getRecipeRegion(recipe, language);
+  const difficultyLabel = getRecipeDifficulty(recipe, language);
+  const steps = getRecipeSteps(recipe, language);
+  const tips = getRecipeTips(recipe, language);
+
+  const resolvedMatched = matchedIngredients.map((id) =>
+    getIngredientNameById(id, language, ingredientMap)
+  );
+  const resolvedMissing = missingIngredients.map((id) =>
+    getIngredientNameById(id, language, ingredientMap)
+  );
+  const optionalIngredients = (recipe.optionalIngredients ?? []).map((id) =>
+    getIngredientNameById(id, language, ingredientMap)
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <View style={styles.badge}>
           <MaterialCommunityIcons name="map-marker" size={16} color={colors.primary} />
-          <Text style={styles.badgeText}>{recipe.region}</Text>
+          <Text style={styles.badgeText}>{regionLabel}</Text>
         </View>
-        <Text style={styles.title}>{recipe.name}</Text>
-        <Text style={styles.description}>{recipe.description}</Text>
+        <Text style={styles.title}>{recipeName}</Text>
+        <Text style={styles.description}>{recipeDescription}</Text>
         <View style={styles.metaRow}>
           <View style={styles.metaItem}>
             <MaterialCommunityIcons name="clock-outline" size={18} color={colors.secondary} />
@@ -92,13 +83,13 @@ const RecipeResultScreen: React.FC = () => {
           </View>
           <View style={styles.metaItem}>
             <MaterialCommunityIcons name="chef-hat" size={18} color={colors.secondary} />
-            <Text style={styles.metaText}>{difficultyLabels[recipe.difficulty]}</Text>
+            <Text style={styles.metaText}>{difficultyLabel}</Text>
           </View>
         </View>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Coincidencias</Text>
+        <Text style={styles.sectionTitle}>{copy.sections.matches}</Text>
         <View style={styles.chipContainer}>
           {resolvedMatched.map((name) => (
             <View key={name} style={[styles.chip, styles.chipSuccess]}>
@@ -106,15 +97,13 @@ const RecipeResultScreen: React.FC = () => {
               <Text style={styles.chipText}>{name}</Text>
             </View>
           ))}
-          {resolvedMatched.length === 0 && (
-            <Text style={styles.helperText}>Selecciona más ingredientes base para afinar la receta.</Text>
-          )}
+          {resolvedMatched.length === 0 && <Text style={styles.helperText}>{copy.helper}</Text>}
         </View>
       </View>
 
       {resolvedMissing.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Te hará falta</Text>
+          <Text style={styles.sectionTitle}>{copy.sections.missing}</Text>
           <View style={styles.chipContainer}>
             {resolvedMissing.map((name) => (
               <View key={name} style={[styles.chip, styles.chipWarning]}>
@@ -128,7 +117,7 @@ const RecipeResultScreen: React.FC = () => {
 
       {optionalIngredients.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Sugerencias opcionales</Text>
+          <Text style={styles.sectionTitle}>{copy.sections.optional}</Text>
           <View style={styles.chipContainer}>
             {optionalIngredients.map((name) => (
               <View key={name} style={[styles.chip, styles.chipOptional]}>
@@ -141,8 +130,8 @@ const RecipeResultScreen: React.FC = () => {
       )}
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Pasos</Text>
-        {recipe.steps.map((step) => (
+        <Text style={styles.sectionTitle}>{copy.sections.steps}</Text>
+        {steps.map((step) => (
           <View key={step.order} style={styles.stepRow}>
             <View style={styles.stepNumber}>
               <Text style={styles.stepNumberText}>{step.order}</Text>
@@ -152,10 +141,10 @@ const RecipeResultScreen: React.FC = () => {
         ))}
       </View>
 
-      {recipe.tips && recipe.tips.length > 0 && (
+      {tips.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Consejos</Text>
-          {recipe.tips.map((tip, index) => (
+          <Text style={styles.sectionTitle}>{copy.sections.tips}</Text>
+          {tips.map((tip, index) => (
             <Text key={index} style={styles.tipText}>
               • {tip}
             </Text>
@@ -165,10 +154,10 @@ const RecipeResultScreen: React.FC = () => {
 
       <View style={styles.actions}>
         <Pressable style={styles.secondaryButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.secondaryButtonText}>Elegir otros ingredientes</Text>
+          <Text style={styles.secondaryButtonText}>{copy.actions.chooseOther}</Text>
         </Pressable>
         <Pressable style={styles.primaryButton} onPress={() => navigation.popToTop()}>
-          <Text style={styles.primaryButtonText}>Volver al inicio</Text>
+          <Text style={styles.primaryButtonText}>{copy.actions.goHome}</Text>
         </Pressable>
       </View>
     </ScrollView>
