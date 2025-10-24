@@ -11,3 +11,6 @@ credentials/
 *.expo
 .idea
 .vscode
+# Play Store assets are generated locally to avoid committing binaries
+assets/store/*.png
+assets/store/screenshots/*.png

@@ -97,3 +97,9 @@ Registra hallazgos relevantes para facilitar regresiones futuras y priorizar opt
 - Añadir persistencia local (SQLite/MMKV) para historial y favoritos.
 - Incorporar búsqueda por nombre o categoría de ingredientes.
 - Preparar servicios para futura integración con generación IA de recetas.
+
+## Public assets and compliance
+
+- La [política de privacidad](docs/privacy-policy.md) confirma que la app funciona sin conexión y no recopila datos personales.
+- Ejecuta `python scripts/generate_store_assets.py` para regenerar el icono (512×512), el gráfico destacado (1024×500) y las capturas bilingües. Los PNG se generan localmente en `assets/store/` (no versionados en Git).
+- La documentación para la ficha de Play Store y los formularios de cumplimiento se encuentra en `docs/store-listing/metadata.md` y `docs/play-console/compliance.md`.
