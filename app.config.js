@@ -1,4 +1,18 @@
+const fs = require('fs');
 const path = require('path');
+
+function assetIfExists(relativePath) {
+  const assetPath = path.resolve(__dirname, relativePath);
+  if (fs.existsSync(assetPath)) {
+    return relativePath;
+  }
+
+  console.warn(
+    `El recurso ${relativePath} no existe; se usará la apariencia predeterminada de Expo. ` +
+      'Añade el archivo para personalizar el splash screen o los íconos de Android.'
+  );
+  return undefined;
+}
 
 function createBaseConfig() {
   return {
@@ -8,7 +22,9 @@ function createBaseConfig() {
     orientation: 'portrait',
     assetBundlePatterns: ['**/*'],
     splash: {
-      image: './assets/splash.png',
+      ...(assetIfExists('./assets/splash.png') && {
+        image: './assets/splash.png',
+      }),
       resizeMode: 'contain',
       backgroundColor: '#f2c65b',
     },
@@ -19,7 +35,9 @@ function createBaseConfig() {
       package: 'com.recetas.peru',
       versionCode: 1,
       permissions: ['INTERNET', 'ACCESS_NETWORK_STATE'],
-      icon: './assets/icon-android.png',
+      ...(assetIfExists('./assets/icon-android.png') && {
+        icon: './assets/icon-android.png',
+      }),
       intentFilters: [
         {
           action: 'VIEW',
@@ -34,7 +52,9 @@ function createBaseConfig() {
         },
       ],
       adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon-foreground.png',
+        ...(assetIfExists('./assets/adaptive-icon-foreground.png') && {
+          foregroundImage: './assets/adaptive-icon-foreground.png',
+        }),
         backgroundColor: '#ffffff',
       },
     },
